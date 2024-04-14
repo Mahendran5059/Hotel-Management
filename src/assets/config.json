@@ -1,0 +1,6 @@
+{
+    "API_version":"1.0",
+    "Type":"service",
+    "source":"localhost",
+    "methods":["GET","POST","PUT","DELETE"]
+}

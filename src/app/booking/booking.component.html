@@ -1,0 +1,175 @@
+<p>booking works!</p>
+<p>{{BookingForm.value | json}}</p>
+<p>dirty: {{BookingForm.dirty | json}}</p>
+<p>status: {{BookingForm.status| json}}</p>
+<p>pristine: {{BookingForm.pristine | json}}</p>
+<p>touched: {{BookingForm.touched | json}}</p>
+<p>untuched:{{BookingForm.untouched | json}}</p>
+<p>{{BookingForm.errors | json}}</p>
+<form [formGroup]="BookingForm" (ngSubmit)="addBooking()">
+  <!-- <mat-form-field>
+    <mat-label [ngStyle]="{'color':(BookingForm.get('bookingId')?.invalid && BookingForm.get('bookingId')?.dirty) ?'red':'green'}">Enter your
+      bookingId</mat-label>
+    <input matInput placeholder="pat@example.com" formControlName="bookingId" required />
+    <mat-error *ngIf="BookingForm.get('bookingId')?.invalid && BookingForm.get('bookingId')?.dirty">{{getErrorMessage()}}</mat-error>
+  </mat-form-field> -->
+  <mat-form-field>
+    <mat-label [ngStyle]="{'color':(BookingForm.get('roomId')?.invalid && BookingForm.get('roomId')?.dirty) ?'red':'green'}">Enter Room Id</mat-label>
+    <input matInput placeholder="roomId" formControlName="roomId" required />
+    <mat-error *ngIf="BookingForm.get('roomId')?.invalid && BookingForm.get('roomId')?.dirty"></mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label [ngStyle]="{'color':(BookingForm.get('guestName')?.invalid && BookingForm.get('guestName')?.dirty) ?'red':'green'}">Enter Guest
+      Name</mat-label>
+    <input matInput type="text" [maxlength]="25" [minlength]="4" placeholder="Guest name" formControlName="guestName" required />
+    <mat-error *ngIf="BookingForm.get('guestName')?.invalid && BookingForm.get('guestName')?.dirty">{{getErrorGuestName()}}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label [ngStyle]="{'color':(BookingForm.get('mobilenumber')?.invalid && BookingForm.get('mobilenumber')?.dirty) ?'red':'green'}">Enter your Mobile
+      Number</mat-label>
+    <input matInput type="text" maxlength="10" placeholder="ex: 9440929773" formControlName="mobilenumber" required />
+    <mat-error *ngIf="BookingForm.get('mobilenumber')?.invalid && BookingForm.get('mobilenumber')?.dirty">{{getErrorMobNum()}}</mat-error>
+    <!-- <p>{{BookingForm.get('mobilenumber')?.errors | json}}</p> -->
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label [ngStyle]="{'color':(BookingForm.get('guestEmail')?.invalid &&BookingForm.get('guestEmail')?.dirty) ?'red':'green'}">Enter your Emaid
+      Address</mat-label>
+    <input matInput type="email" maxlength="35" placeholder="exampple@email.com" formControlName="guestEmail"
+      required />
+    <mat-error *ngIf="BookingForm.get('guestEmail')?.invalid && BookingForm.get('guestEmail')?.dirty">{{getErrorEmail()}}</mat-error>
+    <!-- <p>{{BookingForm.get('guestEmail')?.errors | json}}</p> -->
+  </mat-form-field>
+  <!-- <mat-form-field>
+        <mat-label [ngStyle]="{'color':(BookingForm.invalid &&BookingForm.dirty) ?'red':'green'}">Enter Guest Count</mat-label>
+        <input matInput type="number" maxlength="1" placeholder="ex:2" formControlName="guestCount" required/>
+        <mat-error *ngIf="BookingForm.invalid"></mat-error>
+      </mat-form-field>       -->
+  <mat-form-field>
+    <mat-label [ngStyle]="{'color':(BookingForm.get('bookingAmount')?.invalid && BookingForm.get('bookingAmount')?.dirty) ?'red':'green'}">Enter Booking
+      Amount</mat-label>
+    <input matInput placeholder="price ex:5000" [min]="500" formControlName="bookingAmount" required />
+    <mat-error *ngIf="BookingForm.get('bookingAmount')?.invalid && BookingForm.get('bookingAmount')?.dirty">{{getErrorAmount()}}</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>checkIn Date</mat-label>
+    <input placeholder="click calender icon to input date(right side)" matInput [matDatepicker]="dp3"
+      formControlName="checkinDate" required/>
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+    <mat-error *ngIf="BookingForm.get('checkinDate')?.invalid && BookingForm.get('checkinDate')?.dirty">please enter valid date use hint</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>checkOut Date</mat-label>
+    <input placeholder="click calender icon to input date(right side)" matInput [matDatepicker]="dp4"
+      formControlName="checkoutDate" required/>
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
+    <mat-datepicker #dp4 disabled="false"></mat-datepicker>
+    <mat-error *ngIf="BookingForm.get('checkoutDate')?.invalid && BookingForm.get('checkoutDate')?.dirty">{{BookingForm.get('checkoutDate')?.getError('checkoutLessthanCheckinDate')? 'please enter valid date':'please enter valid date use hint'}}</mat-error>
+    <!-- <p>{{BookingForm.get('checkoutDate')?.errors | json}} </p> -->
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Booking Date</mat-label>
+    <input placeholder="click calender icon to input date(right side)" matInput [matDatepicker]="dp5"
+      formControlName="bookingDate" required/>
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="dp5"></mat-datepicker-toggle>
+    <mat-datepicker #dp5 disabled="false"></mat-datepicker>
+    <mat-error *ngIf="BookingForm.get('bookingDate')?.invalid && BookingForm.get('bookingDate')?.dirty">please enter valid date use hint</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="button" (click)="actPassport()">+ Add/Remove Passport</button>
+  <mat-form-field *ngIf="BookingForm.get('passportNumber')">
+  <mat-label [ngStyle]="{'color':(BookingForm.get('passportNumber')?.invalid && BookingForm.get('passportNumber')?.dirty) ?'red':'green'}">Enter your Passport
+    Number</mat-label>
+  <input matInput type="text" [minlength]="8" maxlength="15" placeholder="ex: IN0929773" formControlName="passportNumber" required />
+  <mat-error *ngIf="BookingForm.get('passportNumber')?.invalid && BookingForm.get('passportNumber')?.dirty">{{(BookingForm.get('passportNumber')?.getError('minlength'))? 'Enter a valid passport number':'you must enter a value'}} </mat-error>
+</mat-form-field>
+  <div formGroupName="address">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Address
+          </mat-panel-title>
+          <!-- <mat-panel-description>
+                Click here to put address
+              </mat-panel-description> -->
+        </mat-expansion-panel-header>
+        <mat-form-field>
+          <mat-label [ngStyle]="{'color':(BookingForm.get('address.guestAddress1')?.invalid && BookingForm.get('address.guestAddress1')?.dirty) ?'red':'green'}">Enter Address
+            Line1</mat-label>
+          <input matInput type="text" [maxlength]="50"  placeholder="ex: 34/8 abc street " formControlName="guestAddress1"
+            required />
+          <mat-error *ngIf="BookingForm.get('address.guestAddress1')?.invalid && BookingForm.get('address.guestAddress1')?.dirty">{{(BookingForm.get('address.guestAddress1')?.getError('required'))? 'you must provide address':(BookingForm.get('address.guestAddress1')?.invalid? 'cannot less than 4 characters':'')}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label [ngStyle]="{'color':(BookingForm.get('address.guestAddress2')?.invalid && BookingForm.get('address.guestAddress2')?.dirty) ?'red':'green'}">Enter Address
+            Line2</mat-label>
+          <input matInput type="text" maxlength="50" placeholder="ex: abc village or post def taluk"
+            formControlName="guestAddress2" required />
+          <mat-error *ngIf="BookingForm.get('address.guestAddress2')?.invalid && BookingForm.get('address.guestAddress2')?.dirty">{{(BookingForm.get('address.guestAddress2')?.getError('required'))? 'you must provide address':''}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label [ngStyle]="{'color':(BookingForm.get('address.city')?.invalid && BookingForm.get('address.city')?.dirty) ?'red':'green'}">Enter
+            City</mat-label>
+          <input matInput type="text" maxlength="25" placeholder="ex: Chennai " formControlName="city" required />
+          <mat-error *ngIf="BookingForm.get('address.city')?.invalid && BookingForm.get('address.city')?.dirty">{{(BookingForm.get('address.city')?.getError('required'))? 'please enter your city name':''}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label [ngStyle]="{'color':(BookingForm.get('address.state')?.invalid && BookingForm.get('address.state')?.dirty) ?'red':'green'}">Enter
+            State</mat-label>
+          <input matInput type="text" maxlength="25" placeholder="ex: Tamil Nadu" formControlName="state" required />
+          <mat-error *ngIf="BookingForm.get('address.state')?.invalid && BookingForm.get('address.state')?.dirty">{{(BookingForm.get('address.state')?.getError('required'))? 'please enter your state name':''}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label [ngStyle]="{'color':(BookingForm.get('address.country')?.invalid && BookingForm.get('address.country')?.dirty) ?'red':'green'}">Enter Country
+            Bame</mat-label>
+          <input matInput type="text" maxlength="25" placeholder="ex: India" formControlName="country" required />
+          <mat-error *ngIf="BookingForm.get('address.country')?.invalid && BookingForm.get('address.country')?.dirty">{{(BookingForm.get('address.country')?.getError('required'))? 'please enter your country name':''}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label [ngStyle]="{'color':(BookingForm.get('address.zipCode')?.invalid && BookingForm.get('address.zipCode')?.dirty) ?'red':'green'}">Enter PinCode or
+            Zipcode</mat-label>
+          <input matInput type="number" [minlength]="6" maxlength="6" placeholder="ex: 600231 " formControlName="zipCode"
+            required />
+          <mat-error *ngIf="BookingForm.get('address.zipCode')?.invalid && BookingForm.get('address.zipCode')?.dirty">{{(BookingForm.get('address.zipCode')?.getError('required'))? 'please enter your city name':'please provide valid zipcode or pincode'}}</mat-error>
+        </mat-form-field>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" type="button" (click)="addGuests()"> + Add Guest</button>
+  </div>
+  <div formArrayName="guestsList">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Guests List
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    <div *ngFor="let guest of guestsList.controls; let i=index">
+      <div [formGroupName]="i">
+        <mat-form-field>
+          <mat-label [ngStyle]="{'color':(BookingForm.get(['guestsList',i,'guestsName'])?.invalid && BookingForm.get(['guestsList',i,'guestsName'])?.dirty) ?'red':'green'}">Guest-{{i+1}} Name</mat-label>
+          <input matInput type="text" maxlength="35" [minlength]="4" placeholder="ex: Harry " formControlName="guestsName" required/>
+          <mat-error *ngIf="BookingForm.get(['guestsList',i,'guestsName'])?.invalid && BookingForm.get(['guestsList',i,'guestsName'])?.dirty">{{BookingForm.get(['guestsList',i,'guestsName'])?.getError('required')? 'please provide guest name':BookingForm.get(['guestsList',i,'guestsName'])?.getError('invalidChar')? 'special characters like @!~*&^%)] and numbers not allowed':'name should have 4 letters atleast'}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label [ngStyle]="{'color':(BookingForm.get(['guestsList',i,'guestsAge'])?.invalid && BookingForm.get(['guestsList',i,'guestsAge'])?.dirty) ?'red':'green'}">Guest-{{i+1}} Age</mat-label>
+          <input matInput type="number" max="120" placeholder="ex: 23 " formControlName="guestsAge" required/>
+          <mat-error *ngIf="BookingForm.get(['guestsList',i,'guestsAge'])?.invalid && BookingForm.get(['guestsList',i,'guestsAge'])?.dirty">{{BookingForm.get(['guestsList',i,'guestsName'])?.getError('required')? 'please provide guest age':'please enter valid age'}}</mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="button" (click)="removeGuest(i)"> - Remove Guest</button>
+      </div>
+
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+<pre></pre>
+<p>complete the form with valid inputs to enable submit</p>
+  </div>
+  <button mat-raised-button color="primary" type="submit" [disabled]="BookingForm.invalid">Submit</button>
+  <pre></pre>
+</form>

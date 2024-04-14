@@ -1,0 +1,11 @@
+<form #logindata="ngForm" (ngSubmit)="login(logindata)" >
+    <h1>LOGIN</h1>
+    <div *ngIf="error">
+        <p class="red"> invaild username or password</p>
+    </div>
+    <input proEmailValidator #emailValue="ngModel"  proHover="lightblue" type ="text" name="Email" placeholder="Enter registered Email or Username" [(ngModel)]="email" required/>
+    <!-- <p class="red">{{emailValue.errors | json}}</p> --><br/>
+    <input  type ="password" name="password" placeholder="Enter password" [(ngModel)]="password" required/>
+    <!-- <input  [(ngModel)]="valueText" name="value"> --><br/>
+    <button type="submit">submit</button>
+</form>

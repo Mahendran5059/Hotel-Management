@@ -1,0 +1,41 @@
+button{
+    display: inline; height: 35px; width: 150px;/* margin-left: 40%; */
+    margin-top: 26px;background-color: rgb(179, 18, 219);
+    color: white;
+    border-radius: 10px;
+
+}
+input{
+    display: inline; 
+    height: 35px; width: 400px; /*margin-left: 30%; */
+    margin-top: 26px;
+    border-radius: 10px;
+    border-color: bisque;
+}
+
+button:hover{
+        background-color: green;
+}
+input:hover{
+    color: green;
+    height: 40px;
+ 
+   
+}
+form{
+    text-align: center;
+   
+}
+@media only screen and (max-width: 600px) {
+    input {
+      width: 100%; /* Take up full width on smaller screens */
+       /* Adjust height automatically */
+    }
+  }
+.red{
+    margin-left: 30%;
+    margin-right: 40%;
+    color: red;
+    background-color: rgba(237, 96, 96, 0.512);
+    padding: 20px;
+}

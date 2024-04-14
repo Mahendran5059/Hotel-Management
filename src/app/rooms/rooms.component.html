@@ -1,0 +1,26 @@
+<h1>Welcome to {{hotelName}}</h1>
+<!-- <pro-header> </pro-header>
+
+<pro-header></pro-header>
+<pro-header></pro-header> -->
+<!-- <router-outlet></router-outlet> -->
+<!-- <router-outlet></router-outlet>
+<div [hidden]="isHide">
+    No of Rooms : <span [innerText]="noOfRooms"></span>
+</div>
+<div [ngStyle]="{'color':rooms.availRooms>0?'green':'red'}">
+    No of available rooms : {{rooms.availRooms>0?rooms.availRooms:"No Rooms"}}
+</div>
+<div *ngIf="selectedRooms">
+    {{selectedRooms|json}}
+</div>
+<h3>No of rooms: {{noOfRooms$|async|json }}</h3> -->
+<div *ngIf="rooms$|async as rooms1">
+<!-- <div *ngIf="roomList as rooms1"> -->
+    <!-- //rooms.availRooms>0 -->
+   <pro-rooms-list [roomsl]="rooms1" (selectedRoom)="selectRoomOut($event)" [title]="titleValue"></pro-rooms-list>
+</div>
+<!-- <button  (click)="addRoom()">addRoom</button>   -->
+ <button style="position: relative; left: 10px;" (click)="toggle()">click</button>
+ <button style="position: relative; left: 20px;" (click)="editRoom()">update</button>
+ <button style="position: relative; left: 30px;" (click)="deleteRoom()">Delete</button>

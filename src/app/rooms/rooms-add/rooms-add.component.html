@@ -1,0 +1,47 @@
+<p>{{addrooms.invalid |json}}</p>
+<p>{{addrooms.valid |json}}</p>
+<p>{{addrooms.dirty |json}}</p>
+<p>{{addrooms.pristine  |json}}</p>
+<p>{{addrooms.value  |json}}</p>
+
+<div *ngIf="addrooms.invalid && addrooms.dirty" >
+    <p class="red" [ngStyle]="{color:'red'}"> Enter valid Input</p>
+</div>
+    <p  *ngIf="msg" style="margin-left: 30%;color:green">{{msg}}</p>
+
+<form #addrooms="ngForm" [ngFormOptions]="{updateOn:'blur'}" (ngSubmit)="addRooms(addrooms)" >
+    <div class ="form-group">
+        <input type ="text" name="roomno" placeholder="enter room Number" [(ngModel)]="newroom.roomNumber" required>
+    </div>
+    <div class ="form-group">
+        <input type ="text" name="room type" placeholder="enter room type" [(ngModel)]="newroom.roomType" required>
+    </div>
+    <div class ="form-group">
+        <input type ="text" name="amenities" #roomaminities="ngModel" minlength="5" maxlength="50" placeholder="enter amenities" [(ngModel)]="newroom.amenities" required>
+    </div>
+    <p  class="red" *ngIf="roomaminities.errors?.['minlength']" [ngStyle]="{color:'red'}" >Input should be atleats 5 characters </p>
+    <div class ="form-group">
+        <input type ="text" name="price" placeholder="enter price" [(ngModel)]="newroom.price" required>
+    </div>
+    <div class ="form-group">
+        <input type ="url" #roomsphoto="ngModel" minlength="13" maxlength="50" pattern="http.*://.*" name="photo" placeholder="enter photo link" [(ngModel)]="newroom.photos" required>
+    </div>
+    <p  class="red" *ngIf="roomsphoto.errors?.['maxlength']" [ngStyle]="{color:'red'}" >url should not exceed 50 characters {{roomsphoto.errors|json }}</p>
+    <p  class="red" *ngIf="roomsphoto.errors?.['pattern']" [ngStyle]="{color:'red'}" >Enter valid url like https or http://exapmle.com</p>
+    <div [hidden]="roomsphoto.errors?.['pattern']">
+    <p  class="red" *ngIf="roomsphoto.errors?.['minlength']" [ngStyle]="{color:'red'}" >Enter valid url</p>
+    </div>
+    <div class ="form-group">
+        <input type ="datetime" name="checkin" placeholder="enter checkin time" [(ngModel)]="newroom.checkinTime" required>
+    </div>
+    <div class ="form-group">
+        <input type ="datetime" name="checkout" placeholder="enter checkout time" [(ngModel)]="newroom.checkoutTime" required>
+    </div>
+    <div class ="form-group">
+        <input type ="number" name="rating" min="1" max="5" placeholder="enter rating from 1 to 5" [(ngModel)]="newroom.rating" required>
+    </div>
+    <div>
+        <button  [disabled]="addrooms.invalid" type="submit"> Add Room</button>
+    </div>
+</form>
+
